@@ -18,6 +18,8 @@ dependencies:
   json_serializable: ^2.0.0
   hex: ^0.1.2
   quiver: ^2.0.1
+  flutter_secure_storage: ^3.1.2
+  local_auth: ^0.3.1
   flutter:
     sdk: flutter
 

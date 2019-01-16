@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:test/test.dart';
-
-import '../lib/rbbclib.dart';
+import 'package:redbellywallet/rbbclib/account.dart';
+import 'package:redbellywallet/rbbclib/transaction.dart';
 
 txIn_serialize_test() {
   String expected =

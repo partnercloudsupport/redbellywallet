@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:test/test.dart';
-
-import '../lib/rbbclib.dart';
+import 'package:redbellywallet/rbbclib/account.dart';
+import 'package:redbellywallet/rbbclib/transaction.dart';
+import 'package:redbellywallet/rbbclib/transactionService.dart';
 
 String utxoReturns = '[{"Hash":"77794ec182ea18702d19dc4f0ac7a09812bb5d31d03bb7ba65749821c8a763c5","Index":1,"Value":125}]';
 String utxoOutputs = '[{"Value":125,"Spent":false,"Script":"BMNNCeTPThB7eV2EE6xtkb3MAk2UM/JfpTKiIUEuxGishmGAFwzWq3QEp9IcXzJXpXBYx5iyhfRCKN06Gh+vfN4=","Address":"WD9GS1AgzIuWfk3C+apwbmnangw="}]';

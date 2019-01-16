@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:bitcoin_flutter/src/ecpair.dart';
 import 'package:bitcoin_flutter/src/payments/p2pkh.dart';
 
-import '../lib/rbbclib.dart';
+import 'package:redbellywallet/rbbclib/account.dart';
 
 String priKey = "7U/vulAIWsLIM3qf3FKCGGc9kniP3Ks26tLQcI7oJbc=";
 String pubKey = "BHQs+WvcQ3POlhbPYKXhNack3zp2Qus0wKQ7eIn5lIFyzwlyffYL/ChRWH1z15XxUm1bwcwxmGJrz0IlCAuI7Dk=";
