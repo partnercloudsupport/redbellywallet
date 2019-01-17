@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:redbellywallet/main.dart';
 import 'package:redbellywallet/rbbclib/account.dart';
+import 'package:redbellywallet/rbbclib/rpcClient.dart';
 
 class AccountSettingsPage extends StatefulWidget {
   AccountSettingsPage({Key key, this.title}) : super(key: key);
@@ -16,9 +17,8 @@ class AccountSettingsPage extends StatefulWidget {
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
   bool _visible = false;
   TextEditingController _privateKey = new TextEditingController(
-      text: MyApp.accounts.isEmpty
-          ? ""
-          : Base64Encoder().convert(MyApp.account.privateKey));
+      text:
+          MyApp.accounts.isEmpty ? "" : base64Encode(MyApp.client.account.privateKey));
 
   void _changeVisibility() {
     setState(() {
@@ -29,9 +29,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
   void _createAccount() {
     Account account = Account.newAccount();
     setState(() {
-      MyApp.account = account;
-      MyApp.accounts[Base64Encoder().convert(account.privateKey)] = account;
-      _privateKey.text = Base64Encoder().convert(MyApp.account.privateKey);
+      MyApp.client = RpcClient.fromAccount(account);
+      MyApp.accounts[base64Encode(account.address)] = account;
+      _privateKey.text = base64Encode(account.privateKey);
     });
   }
 
@@ -40,8 +40,8 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       String privateKey = _privateKey.text;
       Account account = Account.fromPrivateKey(privateKey);
       setState(() {
-        MyApp.account = account;
-        MyApp.accounts[privateKey] = account;
+        MyApp.client = RpcClient.fromAccount(account);
+        MyApp.accounts[base64Encode(account.address)] = account;
       });
     } catch (e) {
       showDialog(
@@ -63,14 +63,14 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
   }
 
   void _deleteAccount() {
-    if(MyApp.account != null){
+    if (MyApp.client != null) {
       setState(() {
-        MyApp.accounts.remove(base64Encode(MyApp.account.privateKey));
-        if(MyApp.accounts.length > 0){
-          MyApp.account = MyApp.accounts.values.first;
-          _privateKey.text = Base64Encoder().convert(MyApp.account.privateKey);
-        }else{
-          MyApp.account = null;
+        MyApp.accounts.remove(base64Encode(MyApp.client.account.address));
+        if (MyApp.accounts.length > 0) {
+          MyApp.client.setAccount(MyApp.accounts.values.first);
+          _privateKey.text = base64Encode(MyApp.client.account.privateKey);
+        } else {
+          MyApp.client = null;
           _privateKey.text = "";
         }
       });
@@ -100,7 +100,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.red[500];
+    Color color = Colors.red;
     double iconSize = 35;
     Widget keyInput = Container(
       padding: const EdgeInsets.all(32.0),
@@ -181,8 +181,29 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         child: new ListView.builder(
             itemCount: MyApp.accounts.length,
             itemBuilder: (context, int index) {
-              return Text(Base64Encoder()
-                  .convert((MyApp.accounts.values.toList())[index].privateKey));
+              return GestureDetector(
+                child: Text(
+                  MyApp.accounts.keys.toList()[index],
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onTap: () {
+                  showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                            child: Padding(
+                                padding: const EdgeInsets.all(32.0),
+                                child: Text(
+                                    'This is the modal bottom sheet. Tap anywhere to dismiss.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 24.0))));
+                      });
+                },
+              );
             }));
 
     return Scaffold(

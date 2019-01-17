@@ -1,24 +1,31 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:redbellywallet/rbbclib/account.dart';
+import 'package:redbellywallet/rbbclib/rpcClient.dart';
 import 'package:redbellywallet/ui/homePage.dart';
 import 'package:redbellywallet/ui/accountSettingsPage.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  static Account account = Account.newAccount();
-  static Map<String, Account> accounts = {Base64Encoder().convert(account.privateKey):account};
+  // Map<Base64-encoded Address, Account>
+  static Map<String, Account> accounts = Map();
 
+  static RpcClient client = RpcClient.fromAccount(Account.fromPrivateKey("70CuK4/E5OMpVWs3dyb3TiRccTW6dS2BExmYUKLtcc4="));
+
+  static HashSet<ServerTuple> servers = HashSet();
+  
   @override
   Widget build(BuildContext context) {
+    servers.add(ServerTuple("129.78.10.53", 7822));
     return MaterialApp(
       title: 'Red Belly Blockchain Wallet',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: AccountSettingsPage(title: 'Red Belly Blockchain Wallet'),
+      home: HomePage(title: 'Red Belly Blockchain Wallet'),
     );
   }
 }
