@@ -17,8 +17,9 @@ class AccountSettingsPage extends StatefulWidget {
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
   bool _visible = false;
   TextEditingController _privateKey = new TextEditingController(
-      text:
-          MyApp.accounts.isEmpty ? "" : base64Encode(MyApp.client.account.privateKey));
+      text: MyApp.accounts.isEmpty
+          ? ""
+          : base64Encode(MyApp.client.account.privateKey));
 
   void _changeVisibility() {
     setState(() {
@@ -32,6 +33,14 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       MyApp.client = RpcClient.fromAccount(account);
       MyApp.accounts[base64Encode(account.address)] = account;
       _privateKey.text = base64Encode(account.privateKey);
+      MyApp.storage.write(
+          key: "currentAccount",
+          value: base64Encode(MyApp.client.account.privateKey));
+      String accounts = "";
+      MyApp.accounts.values.forEach((account) {
+        accounts += base64Encode(account.privateKey) + " ";
+      });
+      MyApp.storage.write(key: "accounts", value: accounts);
     });
   }
 
@@ -42,6 +51,14 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       setState(() {
         MyApp.client = RpcClient.fromAccount(account);
         MyApp.accounts[base64Encode(account.address)] = account;
+        MyApp.storage.write(
+            key: "currentAccount",
+            value: base64Encode(MyApp.client.account.privateKey));
+        String accounts = "";
+        MyApp.accounts.values.forEach((account) {
+          accounts += base64Encode(account.privateKey) + " ";
+        });
+        MyApp.storage.write(key: "accounts", value: accounts);
       });
     } catch (e) {
       showDialog(
@@ -69,9 +86,19 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         if (MyApp.accounts.length > 0) {
           MyApp.client.setAccount(MyApp.accounts.values.first);
           _privateKey.text = base64Encode(MyApp.client.account.privateKey);
+          MyApp.storage.write(
+              key: "currentAccount",
+              value: base64Encode(MyApp.client.account.privateKey));
+          String accounts = "";
+          MyApp.accounts.values.forEach((account) {
+            accounts += base64Encode(account.privateKey) + " ";
+          });
+          MyApp.storage.write(key: "accounts", value: accounts);
         } else {
           MyApp.client = null;
           _privateKey.text = "";
+          MyApp.storage.delete(key: "currentAccount");
+          MyApp.storage.delete(key: "accounts");
         }
       });
     }

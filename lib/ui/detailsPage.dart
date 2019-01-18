@@ -204,47 +204,6 @@ class _DetailsPageState extends State<DetailsPage> {
           txInButton,
         ],
       ),
-//      Container(
-//        child: Row(
-//          crossAxisAlignment: CrossAxisAlignment.stretch,
-//          children: <Widget>[
-//            Expanded(
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.stretch,
-//                children: <Widget>[
-//                  Expanded(
-//                    child: Container(
-//                      color: Colors.red,
-//                    ),
-//                  ),
-//                  Expanded(
-//                    child: Container(
-//                      color: Colors.yellow,
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ),
-//            Expanded(
-//              child: Column(
-//                crossAxisAlignment: CrossAxisAlignment.stretch,
-//                children: <Widget>[
-//                  Expanded(
-//                    child: Container(
-//                      color: Colors.purple,
-//                    ),
-//                  ),
-//                  Expanded(
-//                    child: Container(
-//                      color: Colors.black,
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ),
-//          ],
-//        ),
-//      ),
     );
   }
 }
