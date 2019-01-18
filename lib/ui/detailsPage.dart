@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:redbellywallet/main.dart';
-import 'package:redbellywallet/ui/txInPage.dart';
-import 'package:redbellywallet/ui/txOutPage.dart';
+
+import 'txInPage.dart';
+import 'txOutPage.dart';
+import 'paymentPage.dart';
+import 'receivePage.dart';
 
 class DetailsPage extends StatefulWidget {
   DetailsPage({Key key, this.title}) : super(key: key);
@@ -128,24 +131,57 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     );
 
-    Widget txOutButton = Expanded(
+    Widget payButton = Expanded(
       child: RaisedButton(
-        color: Colors.orange,
+        color: Colors.redAccent,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              width: 100.0,
+              width: 70.0,
               alignment: Alignment.centerLeft,
               child: Icon(
-                Icons.money_off,
+                Icons.account_balance_wallet,
                 size: 50,
                 color: Colors.white,
               ),
             ),
             Text(
-              "Sent Transactions",
+              "Pay",
+              style: TextStyle(
+                fontSize: 40,
+              ),
+            ),
+          ],
+        ),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PaymentPage(title: "Payment")));
+        },
+      ),
+    );
+
+    Widget receiveButton = Expanded(
+      child: RaisedButton(
+        color: Colors.cyan,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 70.0,
+              alignment: Alignment.centerLeft,
+              child: Icon(
+                Icons.add_circle,
+                size: 50,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "Receive",
               style: TextStyle(
                 fontSize: 40,
               ),
@@ -157,7 +193,40 @@ class _DetailsPageState extends State<DetailsPage> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      TxOutPage(title: "Sent Tranasctions")));
+                      ReceivePage(title: "Receive Payment")));
+        },
+      ),
+    );
+
+    Widget txOutButton = Expanded(
+      child: RaisedButton(
+        color: Colors.orange,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: 70.0,
+              alignment: Alignment.centerLeft,
+              child: Icon(
+                Icons.money_off,
+                size: 50,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              "      Sent\nTransactions",
+              style: TextStyle(
+                fontSize: 40,
+              ),
+            ),
+          ],
+        ),
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TxOutPage(title: "Sent Tranasctions")));
         },
       ),
     );
@@ -170,7 +239,8 @@ class _DetailsPageState extends State<DetailsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              width: 100.0,
+              width: 70.0,
+              alignment: Alignment.centerLeft,
               child: Icon(
                 Icons.attach_money,
                 size: 50,
@@ -178,7 +248,7 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
             ),
             Text(
-              "Received Transactions",
+              "   Received\nTransactions",
               style: TextStyle(
                 fontSize: 40,
               ),
@@ -200,8 +270,22 @@ class _DetailsPageState extends State<DetailsPage> {
         children: <Widget>[
           accountSection,
           balanceSection,
-          txOutButton,
-          txInButton,
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                payButton,
+                receiveButton,
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                txOutButton,
+                txInButton,
+              ],
+            ),
+          ),
         ],
       ),
     );

@@ -5,6 +5,8 @@ import 'package:redbellywallet/main.dart';
 import 'package:redbellywallet/rbbclib/account.dart';
 import 'package:redbellywallet/rbbclib/rpcClient.dart';
 
+import 'alertDialog.dart';
+
 class AccountSettingsPage extends StatefulWidget {
   AccountSettingsPage({Key key, this.title}) : super(key: key);
 
@@ -16,10 +18,13 @@ class AccountSettingsPage extends StatefulWidget {
 
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
   bool _visible = false;
-  TextEditingController _privateKey = new TextEditingController(
+  TextEditingController _privateKey = TextEditingController(
       text: MyApp.accounts.isEmpty
           ? ""
           : base64Encode(MyApp.client.account.privateKey));
+
+  Color color = Colors.red;
+  double iconSize = 35;
 
   void _changeVisibility() {
     setState(() {
@@ -64,17 +69,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text("Wrong Private Key Format"),
-              actions: <Widget>[
-                new FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("close")),
-              ],
-            );
+            return SimpleAlertDialog(title: "Error", content: "Wrong Key Format",);
           });
     }
   }
@@ -127,8 +122,6 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.red;
-    double iconSize = 35;
     Widget keyInput = Container(
       padding: const EdgeInsets.all(32.0),
       child: Row(

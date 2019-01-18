@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
   // Map<Base64-encoded Address, Account>
   static Map<String, Account> accounts = Map();
 
-  //70CuK4/E5OMpVWs3dyb3TiRccTW6dS2BExmYUKLtcc4=
+  // 70CuK4/E5OMpVWs3dyb3TiRccTW6dS2BExmYUKLtcc4=
   static RpcClient client;
 
   static HashSet<ServerTuple> servers = HashSet();
@@ -71,6 +71,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     MyApp.servers.add(ServerTuple("129.78.10.53", 7822));
+    MyApp.servers.add(ServerTuple("129.78.10.53", 7722));
+    MyApp.servers.add(ServerTuple("129.78.10.53", 7522));
     return MaterialApp(
       title: 'Red Belly Blockchain Wallet',
       theme: ThemeData(

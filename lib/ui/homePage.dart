@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
 
   var _pages = [
     DetailsPage(),
-    PaymentPage(),
     SettingsPage(),
   ];
 
@@ -40,7 +39,6 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), title: Text('Payment')),
           BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
         ],
         currentIndex: _selectedIndex,
