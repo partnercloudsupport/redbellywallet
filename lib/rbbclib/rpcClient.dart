@@ -27,6 +27,11 @@ class RpcClient {
     return RpcClient(account);
   }
 
+  setAccount(Account account){
+    this.account = account;
+    userTxService.account = account;
+  }
+
   addServer(String host, int port) {
     servers.add(ServerTuple(host, port));
   }
@@ -38,8 +43,10 @@ class RpcClient {
     userTxService.setUserUtxoOutputs(userUtxoOutputs);
   }
 
-  int getBalance() {
+  Future<int> getBalance() async {
     int balance = 0;
+
+    await initUtxo();
 
     this.userTxService.userUtxoTable.utxoReturns.forEach((utxo) {
       if (utxo != null) balance += utxo.value;
@@ -212,6 +219,7 @@ class RpcClient {
   String getConcensusResult(Map<String, int> results){
     String result;
     int maxOcc = 0;
+
     results.forEach((String value, int occ) {
       if (occ > maxOcc) {
         maxOcc = occ;

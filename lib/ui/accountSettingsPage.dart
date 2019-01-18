@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:redbellywallet/main.dart';
 import 'package:redbellywallet/rbbclib/account.dart';
+import 'package:redbellywallet/rbbclib/rpcClient.dart';
+
+import 'alertDialog.dart';
 
 class AccountSettingsPage extends StatefulWidget {
   AccountSettingsPage({Key key, this.title}) : super(key: key);
@@ -15,10 +18,13 @@ class AccountSettingsPage extends StatefulWidget {
 
 class _AccountSettingsPageState extends State<AccountSettingsPage> {
   bool _visible = false;
-  TextEditingController _privateKey = new TextEditingController(
+  TextEditingController _privateKey = TextEditingController(
       text: MyApp.accounts.isEmpty
           ? ""
-          : Base64Encoder().convert(MyApp.account.privateKey));
+          : base64Encode(MyApp.client.account.privateKey));
+
+  Color color = Colors.red;
+  double iconSize = 35;
 
   void _changeVisibility() {
     setState(() {
@@ -29,9 +35,17 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
   void _createAccount() {
     Account account = Account.newAccount();
     setState(() {
-      MyApp.account = account;
-      MyApp.accounts[Base64Encoder().convert(account.privateKey)] = account;
-      _privateKey.text = Base64Encoder().convert(MyApp.account.privateKey);
+      MyApp.client = RpcClient.fromAccount(account);
+      MyApp.accounts[base64Encode(account.address)] = account;
+      _privateKey.text = base64Encode(account.privateKey);
+      MyApp.storage.write(
+          key: "currentAccount",
+          value: base64Encode(MyApp.client.account.privateKey));
+      String accounts = "";
+      MyApp.accounts.values.forEach((account) {
+        accounts += base64Encode(account.privateKey) + " ";
+      });
+      MyApp.storage.write(key: "accounts", value: accounts);
     });
   }
 
@@ -40,38 +54,46 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       String privateKey = _privateKey.text;
       Account account = Account.fromPrivateKey(privateKey);
       setState(() {
-        MyApp.account = account;
-        MyApp.accounts[privateKey] = account;
+        MyApp.client = RpcClient.fromAccount(account);
+        MyApp.accounts[base64Encode(account.address)] = account;
+        MyApp.storage.write(
+            key: "currentAccount",
+            value: base64Encode(MyApp.client.account.privateKey));
+        String accounts = "";
+        MyApp.accounts.values.forEach((account) {
+          accounts += base64Encode(account.privateKey) + " ";
+        });
+        MyApp.storage.write(key: "accounts", value: accounts);
       });
     } catch (e) {
       showDialog(
           context: context,
           builder: (context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text("Wrong Private Key Format"),
-              actions: <Widget>[
-                new FlatButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("close")),
-              ],
-            );
+            return SimpleAlertDialog(title: "Error", content: "Wrong Key Format",);
           });
     }
   }
 
   void _deleteAccount() {
-    if(MyApp.account != null){
+    if (MyApp.client != null) {
       setState(() {
-        MyApp.accounts.remove(base64Encode(MyApp.account.privateKey));
-        if(MyApp.accounts.length > 0){
-          MyApp.account = MyApp.accounts.values.first;
-          _privateKey.text = Base64Encoder().convert(MyApp.account.privateKey);
-        }else{
-          MyApp.account = null;
+        MyApp.accounts.remove(base64Encode(MyApp.client.account.address));
+        if (MyApp.accounts.length > 0) {
+          MyApp.client.setAccount(MyApp.accounts.values.first);
+          _privateKey.text = base64Encode(MyApp.client.account.privateKey);
+          MyApp.storage.write(
+              key: "currentAccount",
+              value: base64Encode(MyApp.client.account.privateKey));
+          String accounts = "";
+          MyApp.accounts.values.forEach((account) {
+            accounts += base64Encode(account.privateKey) + " ";
+          });
+          MyApp.storage.write(key: "accounts", value: accounts);
+        } else {
+          MyApp.client = null;
           _privateKey.text = "";
+          MyApp.storage.delete(key: "currentAccount");
+          MyApp.storage.delete(key: "accounts");
         }
       });
     }
@@ -100,8 +122,6 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Colors.red[500];
-    double iconSize = 35;
     Widget keyInput = Container(
       padding: const EdgeInsets.all(32.0),
       child: Row(
@@ -181,8 +201,29 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         child: new ListView.builder(
             itemCount: MyApp.accounts.length,
             itemBuilder: (context, int index) {
-              return Text(Base64Encoder()
-                  .convert((MyApp.accounts.values.toList())[index].privateKey));
+              return GestureDetector(
+                child: Text(
+                  MyApp.accounts.keys.toList()[index],
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onTap: () {
+                  showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                            child: Padding(
+                                padding: const EdgeInsets.all(32.0),
+                                child: Text(
+                                    'This is the modal bottom sheet. Tap anywhere to dismiss.',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 24.0))));
+                      });
+                },
+              );
             }));
 
     return Scaffold(

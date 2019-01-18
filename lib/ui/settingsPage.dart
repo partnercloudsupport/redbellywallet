@@ -18,26 +18,59 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text("Account"),
+            contentPadding: EdgeInsets.all(20),
+            leading: Icon(
+              Icons.account_circle,
+              color: Colors.red,
+              size: 40,
+            ),
+            title: Text(
+              "Account",
+              style: TextStyle(fontSize: 30),
+            ),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AccountSettingsPage(title: "Account Settings")));
+                      builder: (context) =>
+                          AccountSettingsPage(title: "Account Settings")));
             },
           ),
           ListTile(
-            leading: Icon(Icons.cloud),
-            title: Text("Servers"),
+            contentPadding: EdgeInsets.all(20),
+            leading: Icon(
+              Icons.cloud,
+              color: Colors.red,
+              size: 40,
+            ),
+            title: Text(
+              "Servers",
+              style: TextStyle(fontSize: 30),
+            ),
           ),
           ListTile(
-            leading: Icon(Icons.security),
-            title: Text("Security"),
+            contentPadding: EdgeInsets.all(20),
+            leading: Icon(
+              Icons.security,
+              color: Colors.red,
+              size: 40,
+            ),
+            title: Text(
+              "Security",
+              style: TextStyle(fontSize: 30),
+            ),
           ),
           ListTile(
-            leading: Icon(Icons.mail),
-            title: Text("Contact"),
+            contentPadding: EdgeInsets.all(20),
+            leading: Icon(
+              Icons.mail,
+              color: Colors.red,
+              size: 40,
+            ),
+            title: Text(
+              "Contact",
+              style: TextStyle(fontSize: 30),
+            ),
           ),
         ],
       ),
