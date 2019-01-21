@@ -20,6 +20,8 @@ dependencies:
   quiver: ^2.0.1
   flutter_secure_storage: ^3.1.2
   local_auth: ^0.3.1
+  qr_flutter: ^1.1.6
+  barcode_scan: ^0.0.8
   flutter:
     sdk: flutter
 

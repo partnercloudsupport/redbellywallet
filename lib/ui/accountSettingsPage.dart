@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:redbellywallet/main.dart';
 import 'package:redbellywallet/rbbclib/account.dart';
 import 'package:redbellywallet/rbbclib/rpcClient.dart';
@@ -53,6 +54,18 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
     try {
       String privateKey = _privateKey.text;
       Account account = Account.fromPrivateKey(privateKey);
+      if (MyApp.accounts.containsKey(base64Encode(account.address))) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleAlertDialog(
+              title: "Error",
+              content: "Account Already Added",
+            );
+          },
+        );
+        return;
+      }
       setState(() {
         MyApp.client = RpcClient.fromAccount(account);
         MyApp.accounts[base64Encode(account.address)] = account;
@@ -67,35 +80,38 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       });
     } catch (e) {
       showDialog(
-          context: context,
-          builder: (context) {
-            return SimpleAlertDialog(title: "Error", content: "Wrong Key Format",);
-          });
+        context: context,
+        builder: (context) {
+          return SimpleAlertDialog(
+            title: "Error",
+            content: "Wrong Key Format",
+          );
+        },
+      );
     }
   }
 
   void _deleteAccount() {
     if (MyApp.client != null) {
-      setState(() {
-        MyApp.accounts.remove(base64Encode(MyApp.client.account.address));
-        if (MyApp.accounts.length > 0) {
-          MyApp.client.setAccount(MyApp.accounts.values.first);
-          _privateKey.text = base64Encode(MyApp.client.account.privateKey);
-          MyApp.storage.write(
-              key: "currentAccount",
-              value: base64Encode(MyApp.client.account.privateKey));
-          String accounts = "";
-          MyApp.accounts.values.forEach((account) {
-            accounts += base64Encode(account.privateKey) + " ";
-          });
-          MyApp.storage.write(key: "accounts", value: accounts);
-        } else {
-          MyApp.client = null;
-          _privateKey.text = "";
-          MyApp.storage.delete(key: "currentAccount");
-          MyApp.storage.delete(key: "accounts");
-        }
-      });
+      MyApp.accounts.remove(base64Encode(MyApp.client.account.address));
+      if (MyApp.accounts.length > 0) {
+        MyApp.client.setAccount(MyApp.accounts.values.first);
+        _privateKey.text = base64Encode(MyApp.client.account.privateKey);
+        MyApp.storage.write(
+            key: "currentAccount",
+            value: base64Encode(MyApp.client.account.privateKey));
+        String accounts = "";
+        MyApp.accounts.values.forEach((account) {
+          accounts += base64Encode(account.privateKey) + " ";
+        });
+        MyApp.storage.write(key: "accounts", value: accounts);
+      } else {
+        MyApp.client = null;
+        _privateKey.text = "";
+        MyApp.storage.delete(key: "currentAccount");
+        MyApp.storage.delete(key: "accounts");
+      }
+      setState(() {});
     }
   }
 
@@ -197,31 +213,84 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       ),
     );
 
+    List<String> keys = MyApp.accounts.keys.toList();
     Widget accountList = Expanded(
         child: new ListView.builder(
             itemCount: MyApp.accounts.length,
             itemBuilder: (context, int index) {
               return GestureDetector(
-                child: Text(
-                  MyApp.accounts.keys.toList()[index],
-                  style: TextStyle(
-                    fontSize: 20,
+                child: Container(
+                  height: 60,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                  alignment: Alignment(-0.9, 1.0),
+                  decoration: BoxDecoration(
+                    border: new Border(
+                      bottom: new BorderSide(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    keys[index],
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
                   ),
                 ),
                 onTap: () {
                   showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                            child: Padding(
-                                padding: const EdgeInsets.all(32.0),
-                                child: Text(
-                                    'This is the modal bottom sheet. Tap anywhere to dismiss.',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 24.0))));
-                      });
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        child: Wrap(
+                          children: <Widget>[
+                            ListTile(
+                                leading: new Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                title: new Text('Delete'),
+                                onTap: () {
+                                  if (base64Encode(
+                                          MyApp.client.account.address) ==
+                                      keys[index]) {
+                                    _deleteAccount();
+                                      Navigator.pop(context);
+                                  } else {
+                                    MyApp.accounts.remove(keys[index]);
+                                    String accounts = "";
+                                    MyApp.accounts.values.forEach((account) {
+                                      accounts +=
+                                          base64Encode(account.privateKey) +
+                                              " ";
+                                    });
+                                    MyApp.storage
+                                        .write(key: "accounts", value: accounts)
+                                        .then((value) {
+                                      setState(() {
+                                        Navigator.pop(context);
+                                      });
+                                    });
+                                  }
+                                }),
+                            ListTile(
+                              leading: new Icon(
+                                Icons.content_copy,
+                                color: Colors.red,
+                              ),
+                              title: new Text('Copy'),
+                              onTap: () {
+                                Clipboard.setData(
+                                    new ClipboardData(text: keys[index]));
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
                 },
               );
             }));
@@ -234,6 +303,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         children: <Widget>[
           keyInput,
           buttonSection,
+          Container(
+            height: 20,
+          ),
           accountList,
         ],
       ),

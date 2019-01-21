@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:async';
 
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:redbellywallet/main.dart';
 
 import 'alertDialog.dart';
@@ -44,8 +47,20 @@ class _PaymentPageState extends State<PaymentPage> {
   void _pay() {
     String receiver = _receiver.text;
     int value = 0;
+
     try {
       value = int.parse(_amount.text);
+      if (value <= 0) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleAlertDialog(
+                title: "Error",
+                content: "Amount must be positive integer.",
+              );
+            });
+        return;
+      }
     } catch (e) {
       showDialog(
           context: context,
@@ -110,13 +125,53 @@ class _PaymentPageState extends State<PaymentPage> {
       });
     } catch (e) {
       showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleAlertDialog(
+            title: "Error",
+            content: "Wrong Receiver Address Format",
+          );
+        },
+      );
+    }
+  }
+
+  Future _scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() => this._receiver.text = barcode);
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        showDialog(
           context: context,
           builder: (context) {
             return SimpleAlertDialog(
               title: "Error",
-              content: "Wrong Receiver Address Format",
+              content: 'No Camera Permission',
             );
-          });
+          },
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SimpleAlertDialog(
+              title: "Error",
+              content: '$e',
+            );
+          },
+        );
+      }
+    } on FormatException {} catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleAlertDialog(
+            title: "Error",
+            content: '$e',
+          );
+        },
+      );
     }
   }
 
@@ -156,6 +211,7 @@ class _PaymentPageState extends State<PaymentPage> {
         helperText: "Paymeny amount",
         helperStyle: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
       ),
+      keyboardType: TextInputType.number,
     );
 
     Widget buttonSection = Container(
@@ -171,10 +227,11 @@ class _PaymentPageState extends State<PaymentPage> {
               "Pay"),
           _buildButtonColumn(
               IconButton(
-                  icon: Icon(Icons.camera_alt),
-                  iconSize: _iconSize,
-                  color: _color,
-                  onPressed: () {}),
+                icon: Icon(Icons.camera_alt),
+                iconSize: _iconSize,
+                color: _color,
+                onPressed: _scan,
+              ),
               'Scan'),
         ],
       ),

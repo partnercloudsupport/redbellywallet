@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'accountSettingsPage.dart';
+import 'serversPage.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key, this.title}) : super(key: key);
@@ -47,6 +48,13 @@ class _SettingsPageState extends State<SettingsPage> {
               "Servers",
               style: TextStyle(fontSize: 30),
             ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ServersPage(title: "Server Settings")));
+            },
           ),
           ListTile(
             contentPadding: EdgeInsets.all(20),
