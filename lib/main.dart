@@ -57,10 +57,12 @@ class _MyAppState extends State<MyApp> {
         if (value.containsKey("servers")) {
           List<String> servers = value["servers"].split(" ");
           servers.forEach((server) {
-            try {
-              List<String> tuple = server.split(":");
-              MyApp.servers.add(ServerTuple(tuple[0], int.parse(tuple[1])));
-            } catch (e) {}
+            if(server.contains(":")){
+              try {
+                List<String> tuple = server.split(":");
+                MyApp.servers.add(ServerTuple(tuple[0], int.parse(tuple[1])));
+              } catch (e) {}
+            }
           });
         }
         _loading = false;
@@ -70,9 +72,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    MyApp.servers.add(ServerTuple("129.78.10.53", 7822));
-    MyApp.servers.add(ServerTuple("129.78.10.53", 7722));
-    MyApp.servers.add(ServerTuple("129.78.10.53", 7522));
     return MaterialApp(
       title: 'Red Belly Blockchain Wallet',
       theme: ThemeData(
