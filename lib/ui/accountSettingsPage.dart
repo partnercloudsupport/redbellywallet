@@ -247,6 +247,22 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                           children: <Widget>[
                             ListTile(
                                 leading: new Icon(
+                                  Icons.autorenew,
+                                  color: Colors.red,
+                                ),
+                                title: new Text('Switch'),
+                                onTap: () {
+                                  MyApp.client.account = MyApp.accounts[keys[index]];
+                                  MyApp.storage.write(
+                                      key: "currentAccount",
+                                      value: base64Encode(MyApp.client.account.privateKey));
+                                  setState(() {
+                                    _privateKey.text = base64Encode(MyApp.client.account.privateKey);
+                                    Navigator.pop(context);
+                                  });
+                                }),
+                            ListTile(
+                                leading: new Icon(
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
