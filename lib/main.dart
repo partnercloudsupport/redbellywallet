@@ -6,6 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:redbellywallet/rbbclib/account.dart';
 import 'package:redbellywallet/rbbclib/rpcClient.dart';
 import 'package:redbellywallet/ui/homePage.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -40,7 +42,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _loading = true;
     MyApp.storage.readAll().then((value) {
-      setState(() {
         if (value.containsKey("currentAccount")) {
           MyApp.client = RpcClient.fromAccount(
               Account.fromPrivateKey(value["currentAccount"]));
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
         if (value.containsKey("servers")) {
           List<String> servers = value["servers"].split(" ");
           servers.forEach((server) {
-            if(server.contains(":")){
+            if (server.contains(":")) {
               try {
                 List<String> tuple = server.split(":");
                 MyApp.servers.add(ServerTuple(tuple[0], int.parse(tuple[1])));
@@ -65,21 +66,33 @@ class _MyAppState extends State<MyApp> {
             }
           });
         }
-        _loading = false;
-      });
+        setState(() {
+          _loading = false;
+        });
+//        var localAuth = LocalAuthentication();
+//        while(true){
+//          localAuth.authenticateWithBiometrics(
+//              localizedReason: 'Please authenticate to show account balance',
+//              useErrorDialogs: false).then((value){
+//            if(value){
+//              setState(() {
+//                _loading = false;
+//              });
+//              return;
+//            }
+//          });
+//        }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Red Belly Blockchain Wallet',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: _loading
-          ? _loadingView
-          : HomePage(title: 'Red Belly Blockchain Wallet'),
+        title: 'Red Belly Blockchain Wallet',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        home: _loading ? _loadingView : HomePage(title: "Red Belly Blockchain Wallet"),
     );
   }
 }
