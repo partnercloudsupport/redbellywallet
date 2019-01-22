@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'accountSettingsPage.dart';
 import 'serversPage.dart';
+import 'contactPage.dart';
 
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key, this.title}) : super(key: key);
@@ -79,6 +80,13 @@ class _SettingsPageState extends State<SettingsPage> {
               "Contact",
               style: TextStyle(fontSize: 30),
             ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ContactPage(title: "Contact Us")));
+            },
           ),
         ],
       ),
