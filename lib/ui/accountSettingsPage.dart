@@ -24,8 +24,8 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
           ? ""
           : base64Encode(MyApp.client.account.privateKey));
 
-  Color color = Colors.red;
-  double iconSize = 35;
+  Color _color = Colors.red;
+  double _iconSize = 30.0;
 
   void _changeVisibility() {
     setState(() {
@@ -122,11 +122,10 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
       children: [
         icon,
         Container(
-          margin: const EdgeInsets.only(top: 8.0),
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 15,
               fontWeight: FontWeight.w400,
               color: Colors.black,
             ),
@@ -139,7 +138,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
   @override
   Widget build(BuildContext context) {
     Widget keyInput = Container(
-      padding: const EdgeInsets.all(32.0),
+      padding: const EdgeInsets.only(top: 20, left: 15, right: 5),
       child: Row(
         children: [
           Expanded(
@@ -149,11 +148,10 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
               children: [
                 /*2*/
                 Container(
-                  padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
                     'Private Key',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -163,7 +161,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   obscureText: (!_visible),
                   style: TextStyle(
                     color: Colors.black54,
-                    fontSize: 20,
+                    fontSize: 15,
                   ),
                   decoration: InputDecoration(
                       border: InputBorder.none,
@@ -176,9 +174,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
             icon: (_visible
                 ? Icon(Icons.visibility)
                 : Icon(Icons.visibility_off)),
-            color: color,
+            color: _color,
             onPressed: _changeVisibility,
-            iconSize: iconSize,
+            iconSize: _iconSize-5,
           ),
         ],
       ),
@@ -191,22 +189,22 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
           _buildButtonColumn(
               IconButton(
                   icon: Icon(Icons.add_circle),
-                  iconSize: iconSize,
-                  color: color,
+                  iconSize: _iconSize,
+                  color: _color,
                   onPressed: _createAccount),
               "NEW"),
           _buildButtonColumn(
               IconButton(
                   icon: Icon(Icons.save),
-                  iconSize: iconSize,
-                  color: color,
+                  iconSize: _iconSize,
+                  color: _color,
                   onPressed: _saveAccount),
               'SAVE'),
           _buildButtonColumn(
               IconButton(
                   icon: Icon(Icons.delete),
-                  iconSize: iconSize,
-                  color: color,
+                  iconSize: _iconSize,
+                  color: _color,
                   onPressed: _deleteAccount),
               "DELETE"),
         ],
@@ -222,8 +220,8 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 child: Container(
                   height: 60,
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  alignment: Alignment(-0.9, 1.0),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  alignment: Alignment(-0.9, 0.7),
                   decoration: BoxDecoration(
                     border: new Border(
                       bottom: new BorderSide(
@@ -234,7 +232,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   child: Text(
                     keys[index],
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -319,9 +317,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         children: <Widget>[
           keyInput,
           buttonSection,
-          Container(
-            height: 20,
-          ),
+          Container(height: 10,),
           accountList,
         ],
       ),

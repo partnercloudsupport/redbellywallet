@@ -18,6 +18,9 @@ class _ContactPageState extends State<ContactPage> {
   TextEditingController _name = TextEditingController();
   TextEditingController _company = TextEditingController();
   TextEditingController _content = TextEditingController();
+  double _fontSize = 20;
+  double _inputSize = 15;
+  double _lineMargin = 10;
 
   List<String> _roles = [
     'Developer',
@@ -36,21 +39,21 @@ class _ContactPageState extends State<ContactPage> {
         Text(
           "Name",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: _fontSize,
             color: Colors.black,
           ),
         ),
         TextFormField(
           controller: _name,
           style: TextStyle(
-            fontSize: 25,
+            fontSize: _inputSize,
             color: Colors.black54,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: "Please Enter Your Name",
             hintStyle: TextStyle(
-              fontSize: 25,
+              fontSize: _inputSize,
               color: Colors.grey,
               fontStyle: FontStyle.italic,
             ),
@@ -65,21 +68,21 @@ class _ContactPageState extends State<ContactPage> {
         Text(
           "Company/University",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: _fontSize,
             color: Colors.black,
           ),
         ),
         TextFormField(
           controller: _company,
           style: TextStyle(
-            fontSize: 25,
+            fontSize: _inputSize,
             color: Colors.black54,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: "Please Enter Your Company/University",
             hintStyle: TextStyle(
-              fontSize: 25,
+              fontSize: _inputSize,
               color: Colors.grey,
               fontStyle: FontStyle.italic,
             ),
@@ -94,7 +97,7 @@ class _ContactPageState extends State<ContactPage> {
         Text(
           "Role",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: _fontSize,
             color: Colors.black,
           ),
         ),
@@ -105,7 +108,7 @@ class _ContactPageState extends State<ContactPage> {
                 child: new Text(
                   val,
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: _inputSize,
                     color: Colors.black54,
                   ),
                 ),
@@ -114,7 +117,7 @@ class _ContactPageState extends State<ContactPage> {
             hint: Text(
               _selectedRole,
               style: TextStyle(
-                fontSize: 25,
+                fontSize: _inputSize,
                 color: Colors.black54,
               ),
             ),
@@ -131,7 +134,7 @@ class _ContactPageState extends State<ContactPage> {
         Text(
           "Why are you interested in Red Belly Blockchain?",
           style: TextStyle(
-            fontSize: 30,
+            fontSize: _fontSize,
             color: Colors.black,
           ),
         ),
@@ -139,7 +142,7 @@ class _ContactPageState extends State<ContactPage> {
           maxLines: 5,
           controller: _content,
           style: TextStyle(
-            fontSize: 25,
+            fontSize: _inputSize,
             color: Colors.black54,
           ),
           decoration: new InputDecoration(
@@ -155,39 +158,41 @@ class _ContactPageState extends State<ContactPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _nameInput,
-          Container(
-            height: 20,
-          ),
-          _companyInput,
-          Container(
-            height: 20,
-          ),
-          _positionInput,
-          Container(
-            height: 20,
-          ),
-          _contentInput,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                onPressed: _launchURL,
-                color: Colors.red,
-                child: Text(
-                  "Send",
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _nameInput,
+            Container(
+              height: _lineMargin,
+            ),
+            _companyInput,
+            Container(
+              height: _lineMargin,
+            ),
+            _positionInput,
+            Container(
+              height: _lineMargin,
+            ),
+            _contentInput,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: _launchURL,
+                  color: Colors.red,
+                  child: Text(
+                    "Send",
+                    style: TextStyle(
+                      fontSize: _fontSize,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

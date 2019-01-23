@@ -4,6 +4,9 @@ class SimpleAlertDialog extends StatelessWidget {
   String title;
   String content;
 
+  double _titleSize = 20.0;
+  double _contentSize = 15.0;
+
   SimpleAlertDialog({this.title, this.content});
 
   @override
@@ -13,13 +16,13 @@ class SimpleAlertDialog extends StatelessWidget {
         this.title,
         style: TextStyle(
           color: Colors.red,
-          fontSize: 30,
+          fontSize: _titleSize,
           fontWeight: FontWeight.bold,
         ),
       ),
       content: Text(
         this.content,
-        style: TextStyle(fontSize: 20),
+        style: TextStyle(fontSize: _contentSize),
       ),
       actions: <Widget>[
         new FlatButton(
@@ -28,7 +31,7 @@ class SimpleAlertDialog extends StatelessWidget {
             },
             child: Text(
               "close",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: _contentSize),
             )),
       ],
     );

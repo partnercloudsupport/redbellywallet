@@ -20,6 +20,9 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   int _balance = 0;
   bool _loading = true;
+  double _fontSize = 20.0;
+  double _subFontSize = 15.0;
+  double _iconSize = 40.0;
 
   @override
   void initState() {
@@ -40,15 +43,15 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     Widget accountSection = Container(
-      padding: const EdgeInsets.all(32.0),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
       child: Row(
         children: [
           Container(
-            width: 100.0,
-            alignment: Alignment.centerLeft,
+            width: 80.0,
+            alignment: Alignment.center,
             child: Icon(
               Icons.account_circle,
-              size: 50,
+              size: _iconSize,
               color: Colors.red,
             ),
           ),
@@ -63,7 +66,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   child: Text(
                     'Account Address',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: _fontSize,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -75,7 +78,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ? "Add Key First"
                         : base64Encode(MyApp.client.account.address),
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: _subFontSize,
                     ),
                   ),
                 ),
@@ -87,15 +90,15 @@ class _DetailsPageState extends State<DetailsPage> {
     );
 
     Widget balanceSection = Container(
-      padding: const EdgeInsets.all(32.0),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 2),
       child: Row(
         children: [
           Container(
-            width: 100.0,
-            alignment: Alignment.centerLeft,
+            width: 80.0,
+            alignment: Alignment.center,
             child: Icon(
               Icons.monetization_on,
-              size: 50,
+              size: _iconSize,
               color: Colors.red,
             ),
           ),
@@ -110,7 +113,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   child: Text(
                     'Balance',
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: _fontSize,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -120,12 +123,33 @@ class _DetailsPageState extends State<DetailsPage> {
                   child: Text(
                     _loading ? "N/A" : _balance.toString(),
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: _subFontSize,
                     ),
                   ),
                 ),
               ],
             ),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.red,
+            ),
+            onPressed: () {
+              setState(() {
+                if (MyApp.servers.length == 0 || MyApp.client == null) {
+                  return;
+                }
+                MyApp.client.servers = MyApp.servers;
+                _loading = true;
+                MyApp.client.getBalance().then((value) {
+                  setState(() {
+                    _balance = value;
+                    _loading = false;
+                  });
+                });
+              });
+            },
           ),
         ],
       ),
@@ -134,23 +158,19 @@ class _DetailsPageState extends State<DetailsPage> {
     Widget payButton = Expanded(
       child: RaisedButton(
         color: Colors.redAccent,
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 70.0,
-              alignment: Alignment.centerLeft,
-              child: Icon(
-                Icons.account_balance_wallet,
-                size: 50,
-                color: Colors.white,
-              ),
+            Icon(
+              Icons.account_balance_wallet,
+              size: _iconSize,
+              color: Colors.white,
             ),
             Text(
               "Pay",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: _fontSize,
               ),
             ),
           ],
@@ -167,33 +187,30 @@ class _DetailsPageState extends State<DetailsPage> {
     Widget receiveButton = Expanded(
       child: RaisedButton(
         color: Colors.cyan,
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 70.0,
-              alignment: Alignment.centerLeft,
-              child: Icon(
-                Icons.add_circle,
-                size: 50,
-                color: Colors.white,
-              ),
+            Icon(
+              Icons.add_circle,
+              size: _iconSize,
+              color: Colors.white,
             ),
             Text(
               "Receive",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: _fontSize,
               ),
             ),
           ],
         ),
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      ReceivePage(title: "Receive Payment")));
+            context,
+            MaterialPageRoute(
+              builder: (context) => ReceivePage(title: "Receive Payment"),
+            ),
+          );
         },
       ),
     );
@@ -201,23 +218,25 @@ class _DetailsPageState extends State<DetailsPage> {
     Widget txOutButton = Expanded(
       child: RaisedButton(
         color: Colors.orange,
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 70.0,
-              alignment: Alignment.centerLeft,
-              child: Icon(
-                Icons.money_off,
-                size: 50,
-                color: Colors.white,
+            Icon(
+              Icons.money_off,
+              size: _iconSize,
+              color: Colors.white,
+            ),
+            Text(
+              "Sent",
+              style: TextStyle(
+                fontSize: _fontSize,
               ),
             ),
             Text(
-              "      Sent\nTransactions",
+              "Transactions",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: _fontSize,
               ),
             ),
           ],
@@ -234,23 +253,25 @@ class _DetailsPageState extends State<DetailsPage> {
     Widget txInButton = Expanded(
       child: RaisedButton(
         color: Colors.green,
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 70.0,
-              alignment: Alignment.centerLeft,
-              child: Icon(
-                Icons.attach_money,
-                size: 50,
-                color: Colors.white,
+            Icon(
+              Icons.attach_money,
+              size: _iconSize,
+              color: Colors.white,
+            ),
+            Text(
+              "Received",
+              style: TextStyle(
+                fontSize: _fontSize,
               ),
             ),
             Text(
-              "   Received\nTransactions",
+              "Transactions",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: _fontSize,
               ),
             ),
           ],

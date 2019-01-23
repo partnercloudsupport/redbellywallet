@@ -14,6 +14,8 @@ class ReceivePage extends StatefulWidget {
 }
 
 class _ReceivePageState extends State<ReceivePage> {
+  double _imageSize = 300.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class _ReceivePageState extends State<ReceivePage> {
       body: Center(
         child: QrImage(
           data: base64Encode(MyApp.client.account.address),
-          size: 400,
+          size: _imageSize,
         ),
       ),
     );
