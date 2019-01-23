@@ -22,6 +22,7 @@ class _PaymentPageState extends State<PaymentPage> {
   TextEditingController _amount = TextEditingController();
   Color _color = Colors.red;
   double _iconSize = 50;
+  double _fontSize = 20;
 
   Column _buildButtonColumn(IconButton icon, String label) {
     return Column(
@@ -30,11 +31,10 @@ class _PaymentPageState extends State<PaymentPage> {
       children: [
         icon,
         Container(
-          margin: const EdgeInsets.only(top: 8.0),
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 25,
+              fontSize: _fontSize,
               fontWeight: FontWeight.w400,
               color: Colors.black,
             ),
@@ -181,7 +181,7 @@ class _PaymentPageState extends State<PaymentPage> {
       controller: _receiver,
       style: TextStyle(
         color: Colors.black54,
-        fontSize: 30,
+        fontSize: _fontSize,
       ),
       decoration: InputDecoration(
         border: InputBorder.none,
@@ -189,9 +189,7 @@ class _PaymentPageState extends State<PaymentPage> {
           Icons.person,
           size: 40,
         ),
-        hintText: "Please enter receiver's account address.",
-        helperText: "Receiver's account address",
-        helperStyle: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+        hintText: "Receiver's Address",
       ),
     );
 
@@ -199,7 +197,7 @@ class _PaymentPageState extends State<PaymentPage> {
       controller: _amount,
       style: TextStyle(
         color: Colors.black54,
-        fontSize: 30,
+        fontSize: _fontSize,
       ),
       decoration: InputDecoration(
         border: InputBorder.none,
@@ -207,9 +205,7 @@ class _PaymentPageState extends State<PaymentPage> {
           Icons.monetization_on,
           size: 40,
         ),
-        hintText: "Please enter payment amount.",
-        helperText: "Paymeny amount",
-        helperStyle: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+        hintText: "Payment Amount",
       ),
       keyboardType: TextInputType.number,
     );
@@ -246,7 +242,7 @@ class _PaymentPageState extends State<PaymentPage> {
         children: <Widget>[
           receiverInput,
           new Container(
-            height: 20.0,
+            height: 10.0,
           ),
           amountInput,
           new Container(

@@ -16,7 +16,8 @@ class TxOutPage extends StatefulWidget {
 
 class _TxOutPageState extends State<TxOutPage> {
   List<TxOut> _outTx = List();
-  bool _loading = true;
+  int _size = 0;
+  double _fontSize = 15;
 
   @override
   void initState() {
@@ -25,11 +26,10 @@ class _TxOutPageState extends State<TxOutPage> {
       return;
     }
     MyApp.client.servers = MyApp.servers;
-    _loading = true;
     MyApp.client.getAccountTxOut().then((value) {
       setState(() {
         _outTx = value;
-        _loading = false;
+        _size = _outTx.length;
       });
     });
   }
@@ -41,7 +41,7 @@ class _TxOutPageState extends State<TxOutPage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-          itemCount: _outTx.length,
+          itemCount: _size,
           itemBuilder: (context, int index) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -55,22 +55,22 @@ class _TxOutPageState extends State<TxOutPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      'Receiver: ${base64Encode(_outTx[index].address)}',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
+                  Text(
+                    'Receiver:',
+                    style: TextStyle(
+                      fontSize: _fontSize,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      "Value: ${_outTx[index].value}",
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
+                  Text(
+                      "${base64Encode(_outTx[_size-1-index].address)}",
+                    style: TextStyle(
+                      fontSize: _fontSize,
+                    ),
+                  ),
+                  Text(
+                    "Value: ${_outTx[_size-1-index].value}",
+                    style: TextStyle(
+                      fontSize: _fontSize,
                     ),
                   ),
                 ],

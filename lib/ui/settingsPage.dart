@@ -14,13 +14,14 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  double _fontSize = 22.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: <Widget>[
           ListTile(
-            contentPadding: EdgeInsets.all(20),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.account_circle,
               color: Colors.red,
@@ -28,18 +29,22 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             title: Text(
               "Account",
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(
+                fontSize: _fontSize,
+              ),
             ),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          AccountSettingsPage(title: "Account Settings")));
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AccountSettingsPage(title: "Account Settings"),
+                ),
+              );
             },
           ),
           ListTile(
-            contentPadding: EdgeInsets.all(20),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.cloud,
               color: Colors.red,
@@ -47,18 +52,21 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             title: Text(
               "Servers",
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(
+                fontSize: _fontSize,
+              ),
             ),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ServersPage(title: "Server Settings")));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ServersPage(title: "Server Settings"),
+                ),
+              );
             },
           ),
           ListTile(
-            contentPadding: EdgeInsets.all(20),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.security,
               color: Colors.red,
@@ -66,11 +74,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             title: Text(
               "Security",
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(
+                fontSize: _fontSize,
+              ),
             ),
           ),
           ListTile(
-            contentPadding: EdgeInsets.all(20),
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.mail,
               color: Colors.red,
@@ -78,14 +88,17 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             title: Text(
               "Contact",
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(
+                fontSize: _fontSize,
+              ),
             ),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ContactPage(title: "Contact Us")));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ContactPage(title: "Contact Us"),
+                ),
+              );
             },
           ),
         ],

@@ -13,7 +13,8 @@ class TxInPage extends StatefulWidget {
 
 class _TxInPageState extends State<TxInPage> {
   List<IncomingTxTuple> _incomingTx = List();
-  bool _loading = true;
+  int _size = 0;
+  double _fontSize = 15;
 
   @override
   void initState() {
@@ -22,11 +23,10 @@ class _TxInPageState extends State<TxInPage> {
       return;
     }
     MyApp.client.servers = MyApp.servers;
-    _loading = true;
     MyApp.client.getAccountIncomingTx().then((value) {
       setState(() {
         _incomingTx = value;
-        _loading = false;
+        _size = _incomingTx.length;
       });
     });
   }
@@ -38,7 +38,7 @@ class _TxInPageState extends State<TxInPage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-          itemCount: _incomingTx.length,
+          itemCount: _size,
           itemBuilder: (context, int index) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -52,24 +52,24 @@ class _TxInPageState extends State<TxInPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      'Sender: ${_incomingTx[index].sender}',
+                  Text(
+                      'Sender:',
                       style: TextStyle(
-                        fontSize: 25,
+                        fontSize: _fontSize,
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      "Value: ${_incomingTx[index].value}",
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
+                  Text(
+                    '${_incomingTx[_size-1-index].sender}',
+                    style: TextStyle(
+                      fontSize: _fontSize,
                     ),
                   ),
+                  Text(
+                      "Value: ${_incomingTx[_size-1-index].value}",
+                      style: TextStyle(
+                        fontSize: _fontSize,
+                      ),
+                    ),
                 ],
               ),
             );

@@ -19,6 +19,7 @@ class _ServersPageState extends State<ServersPage> {
   TextEditingController _host = TextEditingController();
   TextEditingController _port = TextEditingController();
   bool _buttonActive = true;
+  double _fontSize = 20;
 
   @override
   void initState() {
@@ -122,42 +123,33 @@ class _ServersPageState extends State<ServersPage> {
     Widget hostInput = TextFormField(
       controller: _host,
       style: TextStyle(
-        color: Colors.black54,
-        fontSize: 30,
+        color: Colors.black,
+        fontSize: _fontSize,
       ),
       decoration: InputDecoration(
         border: InputBorder.none,
         icon: Icon(Icons.cloud_circle, size: 40),
-        hintText: "Please enter server host address.",
-        helperText: "Server host address",
-        helperStyle: TextStyle(
-          fontSize: 20,
-          fontStyle: FontStyle.italic,
-        ),
+        hintText: "Host Address",
       ),
+      keyboardType: TextInputType.number,
     );
 
     Widget portInput = TextFormField(
       controller: _port,
       style: TextStyle(
-        color: Colors.black54,
-        fontSize: 30,
+        color: Colors.black,
+        fontSize: _fontSize,
       ),
       decoration: InputDecoration(
         border: InputBorder.none,
         icon: Icon(Icons.location_searching, size: 40),
-        hintText: "Please enter server port number.",
-        helperText: "Server port number",
-        helperStyle: TextStyle(
-          fontSize: 20,
-          fontStyle: FontStyle.italic,
-        ),
+        hintText: "Port Number",
       ),
       keyboardType: TextInputType.number,
     );
 
     Widget inputSection = Container(
-      padding: const EdgeInsets.all(32.0),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -165,6 +157,7 @@ class _ServersPageState extends State<ServersPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 hostInput,
+                Container(height: 5,),
                 portInput,
               ],
             ),
@@ -186,10 +179,8 @@ class _ServersPageState extends State<ServersPage> {
             itemBuilder: (context, int index) {
               return GestureDetector(
                 child: Container(
-                  height: 60,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-                  alignment: Alignment(-0.9, 1.0),
+                  height: 45,
+                  alignment: Alignment(-0.6, 0.6),
                   decoration: BoxDecoration(
                     border: new Border(
                       bottom: new BorderSide(
@@ -200,7 +191,7 @@ class _ServersPageState extends State<ServersPage> {
                   child: Text(
                     servers[index].toString(),
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: _fontSize,
                     ),
                   ),
                 ),
@@ -247,7 +238,7 @@ class _ServersPageState extends State<ServersPage> {
         children: <Widget>[
           inputSection,
           Container(
-            height: 20,
+            height: 10,
           ),
           serverList,
         ],
