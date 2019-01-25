@@ -20,7 +20,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   TextEditingController _receiver = TextEditingController();
   TextEditingController _amount = TextEditingController();
-  Color _color = Colors.red;
+  Color _color = Color.fromARGB(255, 202, 54, 4);
   double _iconSize = 50;
   double _fontSize = 20;
 
@@ -234,23 +234,30 @@ class _PaymentPageState extends State<PaymentPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          receiverInput,
-          new Container(
-            height: 10.0,
+        appBar: AppBar(
+          title: Text(
+            widget.title,
+            style: Theme.of(context).textTheme.headline,
           ),
-          amountInput,
-          new Container(
-            height: 20.0,
+        ),
+        body: Container(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                receiverInput,
+                Container(
+                  height: 20,
+                ),
+                amountInput,
+                Container(
+                  height: 20,
+                ),
+                buttonSection,
+              ],
+            ),
           ),
-          buttonSection,
-        ],
-      ),
-    );
+        ));
   }
 }

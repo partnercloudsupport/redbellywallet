@@ -25,7 +25,7 @@ class _ServersPageState extends State<ServersPage> {
   void initState() {
     super.initState();
     _buttonActive = true;
-    if(MyApp.servers.length > 0){
+    if (MyApp.servers.length > 0) {
       ServerTuple server = MyApp.servers.first;
       _host.text = server.host;
       _port.text = server.port.toString();
@@ -157,14 +157,16 @@ class _ServersPageState extends State<ServersPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 hostInput,
-                Container(height: 5,),
+                Container(
+                  height: 5,
+                ),
                 portInput,
               ],
             ),
           ),
           IconButton(
             icon: Icon(Icons.add_box),
-            color: _buttonActive ? Colors.red : Colors.grey,
+            color: _buttonActive ? Theme.of(context).primaryColor : Colors.grey,
             onPressed: _buttonActive ? _addServer : null,
             iconSize: 40,
           )
@@ -203,23 +205,23 @@ class _ServersPageState extends State<ServersPage> {
                         child: Wrap(
                           children: <Widget>[
                             ListTile(
-                                leading: new Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
-                                ),
-                                title: new Text('Delete'),
-                                onTap: () {
-                                  MyApp.servers.remove(servers[index]);
-                                  String _servers = "";
-                                  MyApp.servers.forEach((s) {
-                                    _servers += s.toString() + " ";
-                                  });
-                                  MyApp.storage
-                                      .write(key: "servers", value: _servers);
-                                  setState(() {
-                                    Navigator.pop(context);
-                                  });
-                                },
+                              leading: new Icon(
+                                Icons.delete,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              title: new Text('Delete'),
+                              onTap: () {
+                                MyApp.servers.remove(servers[index]);
+                                String _servers = "";
+                                MyApp.servers.forEach((s) {
+                                  _servers += s.toString() + " ";
+                                });
+                                MyApp.storage
+                                    .write(key: "servers", value: _servers);
+                                setState(() {
+                                  Navigator.pop(context);
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -232,7 +234,10 @@ class _ServersPageState extends State<ServersPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: Column(
         children: <Widget>[

@@ -24,7 +24,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
           ? ""
           : base64Encode(MyApp.client.account.privateKey));
 
-  Color _color = Colors.red;
+  Color _color = Color.fromARGB(255, 202, 54, 4);
   double _iconSize = 30.0;
 
   void _changeVisibility() {
@@ -176,7 +176,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                 : Icon(Icons.visibility_off)),
             color: _color,
             onPressed: _changeVisibility,
-            iconSize: _iconSize-5,
+            iconSize: _iconSize - 5,
           ),
         ],
       ),
@@ -246,23 +246,26 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                             ListTile(
                                 leading: new Icon(
                                   Icons.autorenew,
-                                  color: Colors.red,
+                                  color: _color,
                                 ),
                                 title: new Text('Switch'),
                                 onTap: () {
-                                  MyApp.client.account = MyApp.accounts[keys[index]];
+                                  MyApp.client.account =
+                                      MyApp.accounts[keys[index]];
                                   MyApp.storage.write(
                                       key: "currentAccount",
-                                      value: base64Encode(MyApp.client.account.privateKey));
+                                      value: base64Encode(
+                                          MyApp.client.account.privateKey));
                                   setState(() {
-                                    _privateKey.text = base64Encode(MyApp.client.account.privateKey);
+                                    _privateKey.text = base64Encode(
+                                        MyApp.client.account.privateKey);
                                     Navigator.pop(context);
                                   });
                                 }),
                             ListTile(
                                 leading: new Icon(
                                   Icons.delete,
-                                  color: Colors.red,
+                                  color: _color,
                                 ),
                                 title: new Text('Delete'),
                                 onTap: () {
@@ -270,7 +273,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                                           MyApp.client.account.address) ==
                                       keys[index]) {
                                     _deleteAccount();
-                                      Navigator.pop(context);
+                                    Navigator.pop(context);
                                   } else {
                                     MyApp.accounts.remove(keys[index]);
                                     String accounts = "";
@@ -291,7 +294,7 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                             ListTile(
                               leading: new Icon(
                                 Icons.content_copy,
-                                color: Colors.red,
+                                color: _color
                               ),
                               title: new Text('Copy'),
                               onTap: () {
@@ -311,13 +314,18 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: Column(
         children: <Widget>[
           keyInput,
           buttonSection,
-          Container(height: 10,),
+          Container(
+            height: 10,
+          ),
           accountList,
         ],
       ),

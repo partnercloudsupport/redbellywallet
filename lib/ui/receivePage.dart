@@ -20,7 +20,10 @@ class _ReceivePageState extends State<ReceivePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: Center(
         child: QrImage(

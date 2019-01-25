@@ -52,7 +52,7 @@ class _DetailsPageState extends State<DetailsPage> {
             child: Icon(
               Icons.account_circle,
               size: _iconSize,
-              color: Colors.red,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           Expanded(
@@ -99,7 +99,7 @@ class _DetailsPageState extends State<DetailsPage> {
             child: Icon(
               Icons.monetization_on,
               size: _iconSize,
-              color: Colors.red,
+              color: Theme.of(context).primaryColor,
             ),
           ),
           Expanded(
@@ -133,7 +133,7 @@ class _DetailsPageState extends State<DetailsPage> {
           IconButton(
             icon: Icon(
               Icons.refresh,
-              color: Colors.red,
+              color: Theme.of(context).primaryColor,
             ),
             onPressed: () {
               setState(() {
@@ -245,7 +245,7 @@ class _DetailsPageState extends State<DetailsPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => TxOutPage(title: "Sent Tranasctions")));
+                  builder: (context) => TxOutPage(title: "Sent Transactions")));
         },
       ),
     );
@@ -281,7 +281,7 @@ class _DetailsPageState extends State<DetailsPage> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      TxInPage(title: "Received Tranasctions")));
+                      TxInPage(title: "Received Transactions")));
         },
       ),
     );

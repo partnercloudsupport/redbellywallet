@@ -91,6 +91,12 @@ class _MyAppState extends State<MyApp> {
         title: 'Red Belly Blockchain Wallet',
         theme: ThemeData(
           primarySwatch: Colors.red,
+          primaryColor: Color.fromARGB(255, 202, 54, 4),
+          fontFamily: 'rbbc',
+          textTheme: TextTheme(
+            headline: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold),
+            title: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
         ),
         home: _loading ? _loadingView : HomePage(title: "Red Belly Blockchain Wallet"),
     );

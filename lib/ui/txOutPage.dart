@@ -38,7 +38,10 @@ class _TxOutPageState extends State<TxOutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: ListView.builder(
           itemCount: _size,
@@ -62,13 +65,13 @@ class _TxOutPageState extends State<TxOutPage> {
                     ),
                   ),
                   Text(
-                      "${base64Encode(_outTx[_size-1-index].address)}",
+                    "${base64Encode(_outTx[_size - 1 - index].address)}",
                     style: TextStyle(
                       fontSize: _fontSize,
                     ),
                   ),
                   Text(
-                    "Value: ${_outTx[_size-1-index].value}",
+                    "Value: ${_outTx[_size - 1 - index].value}",
                     style: TextStyle(
                       fontSize: _fontSize,
                     ),
