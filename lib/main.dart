@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Color.fromARGB(255, 202, 54, 4),
           fontFamily: 'rbbc',
           textTheme: TextTheme(
-            headline: TextStyle(fontSize: 27.0, fontWeight: FontWeight.bold),
+            headline: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             title: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
         ),

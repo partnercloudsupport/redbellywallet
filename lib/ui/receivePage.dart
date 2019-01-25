@@ -26,10 +26,12 @@ class _ReceivePageState extends State<ReceivePage> {
         ),
       ),
       body: Center(
-        child: QrImage(
-          data: base64Encode(MyApp.client.account.address),
-          size: _imageSize,
-        ),
+        child: MyApp.client != null
+            ? QrImage(
+                data: base64Encode(MyApp.client.account.address),
+                size: _imageSize,
+              )
+            : Text("Add Account First",),
       ),
     );
   }
