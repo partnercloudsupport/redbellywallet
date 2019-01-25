@@ -35,7 +35,10 @@ class _TxInPageState extends State<TxInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: ListView.builder(
           itemCount: _size,
@@ -53,23 +56,23 @@ class _TxInPageState extends State<TxInPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                      'Sender:',
-                      style: TextStyle(
-                        fontSize: _fontSize,
-                      ),
-                    ),
-                  Text(
-                    '${_incomingTx[_size-1-index].sender}',
+                    'Sender:',
                     style: TextStyle(
                       fontSize: _fontSize,
                     ),
                   ),
                   Text(
-                      "Value: ${_incomingTx[_size-1-index].value}",
-                      style: TextStyle(
-                        fontSize: _fontSize,
-                      ),
+                    '${_incomingTx[_size - 1 - index].sender}',
+                    style: TextStyle(
+                      fontSize: _fontSize,
                     ),
+                  ),
+                  Text(
+                    "Value: ${_incomingTx[_size - 1 - index].value}",
+                    style: TextStyle(
+                      fontSize: _fontSize,
+                    ),
+                  ),
                 ],
               ),
             );

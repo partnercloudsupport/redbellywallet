@@ -156,7 +156,10 @@ class _ContactPageState extends State<ContactPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -180,7 +183,7 @@ class _ContactPageState extends State<ContactPage> {
               children: <Widget>[
                 RaisedButton(
                   onPressed: _launchURL,
-                  color: Colors.red,
+                  color: Theme.of(context).primaryColor,
                   child: Text(
                     "Send",
                     style: TextStyle(

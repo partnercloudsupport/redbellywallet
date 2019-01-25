@@ -15,6 +15,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   double _fontSize = 22.0;
+  Color _color = Color.fromARGB(255, 202, 54, 4);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.account_circle,
-              color: Colors.red,
+              color: _color,
               size: 40,
             ),
             title: Text(
@@ -47,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.cloud,
-              color: Colors.red,
+              color: _color,
               size: 40,
             ),
             title: Text(
@@ -69,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.security,
-              color: Colors.red,
+              color: _color,
               size: 40,
             ),
             title: Text(
@@ -83,7 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             leading: Icon(
               Icons.mail,
-              color: Colors.red,
+              color: _color,
               size: 40,
             ),
             title: Text(

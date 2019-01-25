@@ -20,13 +20,18 @@ class _ReceivePageState extends State<ReceivePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headline,
+        ),
       ),
       body: Center(
-        child: QrImage(
-          data: base64Encode(MyApp.client.account.address),
-          size: _imageSize,
-        ),
+        child: MyApp.client != null
+            ? QrImage(
+                data: base64Encode(MyApp.client.account.address),
+                size: _imageSize,
+              )
+            : Text("Add Account First",),
       ),
     );
   }

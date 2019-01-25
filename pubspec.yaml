@@ -7,7 +7,7 @@ description: Wallet for Red Belly Blockchain
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -45,6 +45,13 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+    - family: rbbc
+      fonts:
+        - asset: fonts/IBMPlexSerif-Regular.ttf
+        - asset: fonts/BaiJamjuree-Bold.ttf
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
